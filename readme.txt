@@ -21,3 +21,5 @@ It uses several of the functions in the toolbox.
 The .mat-files "abmconfig_..." denote Matlab-objects containing realisations of the ABM. This means
 the time-evolution of individual opinions of agents and of the opinion percentages, plus settings like
 number of agents or time steps, model coefficients alpha.
+
+The function executeABM.m used Matlab's parallelization toolbox. If this is not installed on your machine, simply replace the parfor-loop by a for loop.
