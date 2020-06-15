@@ -3,11 +3,13 @@
 % For Paper, "Memory-based reduced modeling and data-based estimation of opinion spreading"
 % by Niklas Wulkow, Peter Koltai and Christof Schuette
 
-% Section 1: Create realisations of the opinion change ABM
+% Section 1: Create realisations of the opinion change ABM (this might take several minutes)
 % Section 2: Do the SINAR analysis and prediction with multiple memory depths
 % Section 3: Plot the results
 
-% ABM PARAMETER
+% Plot the i-th realisation of opinion percentages with plot(reshape(C(:,i)',T,M),'LineWidth',1.5)
+
+%% ABM PARAMETER
 % N = number of agents
 % T = number of time steps
 % M = number of opinions
@@ -22,14 +24,14 @@
 % N = 5000; T = 600; m = 3; Alpha = [0,0.55,0.1;0.1,0,0.55;0.55,0.1,0]*0.3; pinside = 1; pbetween = 1; noClusters = 1; numIter = 20;
 % mstart = [1*ones(0.45*N,1);2*ones(0.1*N,1);3*ones(0.45*N,1)]; % Distribution of opinions in network
 % [C,ms,Cmean,A] = executeABM(N,T,m,Alpha,pinside,pbetween,noClusters,mstart,numIter);
-% saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T600_1Cluster');
+% saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T600_1Cluster_2');
 
 fprintf('Two Cluster settings \n')
-N = 5000; T = 500; m = 3; Alpha = [0,0.55,0.1;0.1,0,0.55;0.55,0.1,0]*0.3; pinside = 1; pbetween = 0.0001; noClusters = 2; numIter = 6;
+N = 5000; T = 500; m = 3; Alpha = [0,0.55,0.1;0.1,0,0.55;0.55,0.1,0]*0.3; pinside = 1; pbetween = 0.0001; noClusters = 2; numIter = 20;
 mstart = [1*ones(0.8*N/2,1);2*ones(0.1*N/2,1);3*ones(0.1*N/2,1)]; % Distribution in first cluster
 mstart = [mstart;[1*ones(0.1*N/2,1);2*ones(0.1*N/2,1);3*ones(0.8*N/2,1)]]; % Distribution in second cluster
 [C,ms,Cmean,A] = executeABM(N,T,m,Alpha,pinside,pbetween,noClusters,mstart,numIter);
-%saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T500_2Clusters');
+saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T500_2Clusters_2');
 
 % fprintf('Five Cluster settings \n')
 % N = 5000; T = 8; m = 3; Alpha = [0,0.55,0.1;0.1,0,0.55;0.55,0.1,0]*0.3; pinside = 1; pbetween = 0.0001; noClusters = 5; numIter = 6;
@@ -39,21 +41,20 @@ mstart = [mstart;[1*ones(0.1*N/2,1);2*ones(0.1*N/2,1);3*ones(0.8*N/2,1)]]; % Dis
 % mstart = [mstart, 1*ones(0.3*N/5,1);2*ones(0.4*N/5,1);3*ones(0.3*N/5,1)];
 % mstart = [mstart, 1*ones(0.5*N/5,1);2*ones(0.2*N/5,1);3*ones(0.3*N/5,1)];
 % [C,ms,Cmean,A] = executeABM(N,T,m,Alpha,pinside,pbetween,noClusters,mstart,numIter);
-% saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T800_5Clusters');
-%%
-% ANALYSIS VALUES
+% saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T800_5Clusters_2');
+%% ANALYSIS VALUES
 % C: Matrix containing all realisations of opinion percentages: i-th
 % column: Rows 1-T contain opinion percentages of first opinion over T time
 % steps. Rows T+1-2T contain percentages of second opinion...
 % ms: All individual opinions stored in Cell Array. i-th cell represents
 % individual opinions in i-th realisation over time
-% abmconfig = load('abmconfig_N5000T800_5Clusters');
-% abmconfig = abmconfig.abmconfig;
-% C = abmconfig.C;
-% T = abmconfig.T;
-% numIter = size(abmconfig.C,2); % Number of realisations
-% ms = abmconfig.ms; 
-% m = size(abmconfig.Alpha,1); % Number of opinions
+abmconfig = load('abmconfig_N5000T500_2Clusters');
+abmconfig = abmconfig.abmconfig;
+C = abmconfig.C;
+T = abmconfig.T;
+numIter = size(abmconfig.C,2); % Number of realisations
+ms = abmconfig.ms; 
+m = size(abmconfig.Alpha,1); % Number of opinions
 
 endtime = min(400,T); % Endtime used in training and prediction    
 indices = 1+T*[0:m-1]+[1:endtime]'; % Rows of matrix C (if endtime < T, some rows are excluded)
@@ -78,8 +79,8 @@ outputPred_lambdapos = abmprediction(C,m,numIter,phi,lambda,pmax,blocklength,opi
 MRSE_lambdapos = outputPred_lambdapos{1};
 MRSE_Onestep_lambdapos = outputPred_lambdapos{2};
 xi_lambdapos = outputPred_lambdapos{3};
-%% Plot
-trajectoryindex = 2; % Index of realisation that should be plotted in main figure
+%% PLOT
+trajectoryindex = 1; % Index of realisation that should be plotted in main figure
 figure(1)
 
 subplot(2,2,1)
