@@ -29,7 +29,7 @@ N = 5000; T = 500; m = 3; Alpha = [0,0.55,0.1;0.1,0,0.55;0.55,0.1,0]*0.3; pinsid
 mstart = [1*ones(0.8*N/2,1);2*ones(0.1*N/2,1);3*ones(0.1*N/2,1)]; % Distribution in first cluster
 mstart = [mstart;[1*ones(0.1*N/2,1);2*ones(0.1*N/2,1);3*ones(0.8*N/2,1)]]; % Distribution in second cluster
 [C,ms,Cmean,A] = executeABM(N,T,m,Alpha,pinside,pbetween,noClusters,mstart,numIter);
-%saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T600_2Clusters');
+%saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T500_2Clusters');
 
 % fprintf('Five Cluster settings \n')
 % N = 5000; T = 8; m = 3; Alpha = [0,0.55,0.1;0.1,0,0.55;0.55,0.1,0]*0.3; pinside = 1; pbetween = 0.0001; noClusters = 5; numIter = 6;

@@ -16,3 +16,7 @@ among members of a closed society
 - Using SINAR for determination of model coefficients of a nonlinear autoregressive model (derivation
 in section 2 of the paper) and reconstruction of evolutions of the opinion percentages with this model
 - Plotting of results
+
+The .mat-files "abmconfig_..." denote Matlab-objects containing realisations of the ABM. This means
+the time-evolution of individual opinions of agents and of the opinion percentages, plus settings like
+number of agents or time steps, model coefficients alpha.
