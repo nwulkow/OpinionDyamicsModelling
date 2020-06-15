@@ -5,7 +5,7 @@ function outputPred = abmprediction(C,m,numIter,f,lambda,pmax,blocklength,opinio
 % by Niklas Wulkow, Peter Koltai and Christof Schuette
 
 % C: Matrix of realisations
-T = size(C,1) / m; % Length of each realisation
+T = size(C,1) / m; % Length of each realisation (we assume all realisations have the same length. Can easily be modified)
 iterTrain = floor(numIter*0.6); % Use 60 Percent of realisations for training, the rest for validation
 tau = 1; % Use every tau-th time step (tau = 1 in paper)
 clear Xtrain Xtest
@@ -13,7 +13,7 @@ for k = 1:iterTrain
     c = C(1:tau:end,k);
     c = reshape(c,T/tau,m)';
     Xtrain{k} = c(opinions_in_analysis,1:T); % Xtrain is a Cell array with realisations of the 
-    % opinion percentages of time that are to be used for training in SINAR
+    % opinion percentages that are to be used for training in SINAR
 end
 for k = 1:numIter-iterTrain
     c = C(1:tau:end,k+iterTrain);
@@ -30,7 +30,7 @@ for p = 1:pmax
         H = delayMap(Xtest{k}(opinions_in_analysis,:),1,p,'descend'); % Creates Hankel matrix
         Ttest = size(Xtest{k},2); % Number of time steps of current realisation
         counter = 0;
-        testerrorblock = zeros(1,(Ttest)/blocklength-1);
+        testerrorblock = zeros(1,floor((Ttest)/blocklength-1));
         for u = 1:(Ttest)/blocklength-1 % Iterate over all blocks of length blocklength of the current realisation
             Xrec = Xtest{k}(:,blocklength*(u)+1-p:blocklength*(u)); % Starting values for this block are last p values of previous block
             for i = 1:blocklength % Compute reconstruction for one block

@@ -3,7 +3,8 @@
 % For Paper, "Memory-based reduced modeling and data-based estimation of opinion spreading"
 % by Niklas Wulkow, Peter Koltai and Christof Schuette
 
-% Section 1: Create realisations of the opinion change ABM (this might take several minutes)
+% Section 1: Create realisations of the opinion change ABM (this might take several minutes. One can already use the 
+% three available realisations "abmconfig_..." and load them in in Section 2)
 % Section 2: Do the SINAR analysis and prediction with multiple memory depths
 % Section 3: Plot the results
 
@@ -27,7 +28,7 @@
 % saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T600_1Cluster_2');
 
 fprintf('Two Cluster settings \n')
-N = 5000; T = 500; m = 3; Alpha = [0,0.55,0.1;0.1,0,0.55;0.55,0.1,0]*0.3; pinside = 1; pbetween = 0.0001; noClusters = 2; numIter = 2;
+N = 5000; T = 500; m = 3; Alpha = [0,0.55,0.1;0.1,0,0.55;0.55,0.1,0]*0.3; pinside = 1; pbetween = 0.0001; noClusters = 2; numIter = 20;
 mstart = [1*ones(0.8*N/2,1);2*ones(0.1*N/2,1);3*ones(0.1*N/2,1)]; % Distribution in first cluster
 mstart = [mstart;[1*ones(0.1*N/2,1);2*ones(0.1*N/2,1);3*ones(0.8*N/2,1)]]; % Distribution in second cluster
 [C,ms,Cmean,A] = executeABM(N,T,m,Alpha,pinside,pbetween,noClusters,mstart,numIter);
@@ -48,6 +49,9 @@ saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T500_2Clusters_2');
 % steps. Rows T+1-2T contain percentages of second opinion...
 % ms: All individual opinions stored in Cell Array. i-th cell represents
 % individual opinions in i-th realisation over time
+
+% If you do not want to load data that you have saved but the output from
+% Section 1, please comment the following lines until "m = size(abmconfig.Alpha,1);".
 abmconfig = load('abmconfig_N5000T500_2Clusters');
 abmconfig = abmconfig.abmconfig;
 C = abmconfig.C;
@@ -57,8 +61,7 @@ ms = abmconfig.ms;
 m = size(abmconfig.Alpha,1); % Number of opinions
 
 endtime = min(400,T); % Endtime used in training and prediction    
-indices = 1+T*[0:m-1]+[1:endtime]'; % Rows of matrix C (if endtime < T, some rows are excluded)
-C_copy = C;
+indices = size(C,1)/m*[0:m-1]+[1:endtime]'; % Rows of matrix C (if endtime < T, some rows are excluded)
 C = C(indices(:),:);
 pmax = 20; % Maximal value of p in SINAR analysis
 blocklength =  20; % Length of each block that is reconstructed
