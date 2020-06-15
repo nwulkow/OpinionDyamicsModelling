@@ -24,7 +24,7 @@ A = modularnetwork(N,noClusters,pinside,pbetween); % Create an adjacency matrix 
 % Simulations
 C = [];
 mmean = 0;
-parfor j = 1:numIter % If the Parallelisation toolbox of Matlab is not installed, a "parfor" can be changed to "for"
+for j = 1:numIter % If the Parallelisation toolbox of Matlab is not installed, a "parfor" can be changed to "for"
     fprintf(strcat('Realisation no.: ',num2str(j),'\n'))
     output = ABM_function(N,m,T,Alpha,A,mstart); % ABM realisation
     c = output{1}; % opinion percentages

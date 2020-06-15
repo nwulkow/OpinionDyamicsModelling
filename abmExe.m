@@ -7,9 +7,9 @@
 % Section 2: Do the SINAR analysis and prediction with multiple memory depths
 % Section 3: Plot the results
 
-% Plot the i-th realisation of opinion percentages with plot(reshape(C(:,i)',T,M),'LineWidth',1.5)
+% Plot the i-th realisation of opinion percentages with plot(reshape(C(:,i)',T,m),'LineWidth',1.5)
 
-%% ABM PARAMETER
+%% Section 1: ABM PARAMETER
 % N = number of agents
 % T = number of time steps
 % M = number of opinions
@@ -27,7 +27,7 @@
 % saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T600_1Cluster_2');
 
 fprintf('Two Cluster settings \n')
-N = 5000; T = 500; m = 3; Alpha = [0,0.55,0.1;0.1,0,0.55;0.55,0.1,0]*0.3; pinside = 1; pbetween = 0.0001; noClusters = 2; numIter = 20;
+N = 5000; T = 500; m = 3; Alpha = [0,0.55,0.1;0.1,0,0.55;0.55,0.1,0]*0.3; pinside = 1; pbetween = 0.0001; noClusters = 2; numIter = 2;
 mstart = [1*ones(0.8*N/2,1);2*ones(0.1*N/2,1);3*ones(0.1*N/2,1)]; % Distribution in first cluster
 mstart = [mstart;[1*ones(0.1*N/2,1);2*ones(0.1*N/2,1);3*ones(0.8*N/2,1)]]; % Distribution in second cluster
 [C,ms,Cmean,A] = executeABM(N,T,m,Alpha,pinside,pbetween,noClusters,mstart,numIter);
@@ -42,7 +42,7 @@ saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T500_2Clusters_2');
 % mstart = [mstart, 1*ones(0.5*N/5,1);2*ones(0.2*N/5,1);3*ones(0.3*N/5,1)];
 % [C,ms,Cmean,A] = executeABM(N,T,m,Alpha,pinside,pbetween,noClusters,mstart,numIter);
 % saveABM(N,T,Alpha,pinside,pbetween,noClusters,A,C,ms,'N5000T800_5Clusters_2');
-%% ANALYSIS VALUES
+%% Section 2: ANALYSIS VALUES
 % C: Matrix containing all realisations of opinion percentages: i-th
 % column: Rows 1-T contain opinion percentages of first opinion over T time
 % steps. Rows T+1-2T contain percentages of second opinion...
@@ -79,7 +79,7 @@ outputPred_lambdapos = abmprediction(C,m,numIter,phi,lambda,pmax,blocklength,opi
 MRSE_lambdapos = outputPred_lambdapos{1};
 MRSE_Onestep_lambdapos = outputPred_lambdapos{2};
 xi_lambdapos = outputPred_lambdapos{3};
-%% PLOT
+%% Section 3: PLOT
 trajectoryindex = 1; % Index of realisation that should be plotted in main figure
 figure(1)
 
