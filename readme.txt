@@ -1,6 +1,6 @@
 Copyright 2020, All Rights Reserved
 Code by Niklas Wulkow
-For Paper, "Memory-based reduced modeling and data-based estimation of opinion spreading"
+For Paper, "Memory-based reduced modelling and data-based estimation of opinion spreading"
 by Niklas Wulkow, Peter Koltai and Christof Schuette
 
 This toolbox contains two executable Matlab-scripts and several functions.
